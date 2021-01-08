@@ -41,10 +41,15 @@ namespace backend.Models
             decimal acrescimo = 0;
             foreach (Parcela parcela in Parcelas)
             {
-                acrescimo += (Juros / 30) * DiferencaEmDiasAPartirDeHoje(parcela.DataVencimento) * parcela.Valor;
+                acrescimo += (parcela.Valor / 100 * Juros / 30) * DiferencaEmDiasAPartirDeHoje(parcela.DataVencimento);
             }
 
-            return RecuperarValorOriginal() + acrescimo;
+            return RecuperarValorOriginal() + acrescimo + RecuperarMulta();
+        }
+
+        public decimal RecuperarMulta()
+        {
+            return RecuperarValorOriginal() / 100 * Multa;
         }
 
         private int DiferencaEmDiasAPartirDeHoje(DateTime vencimento)
