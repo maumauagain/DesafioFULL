@@ -1,64 +1,49 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using backend.Data;
 using backend.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace backend.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class DividaController : ControllerBase
+    public class ParcelaController : ControllerBase
     {
         private readonly IRepository _repository;
 
-        public DividaController(IRepository repository)
+        public ParcelaController(IRepository repository)
         {
             _repository = repository;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetDividas()
-        {
-            try
-            {
-                var result = await _repository.GetAllDividasAsync();
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"Erro: {ex.Message}");
-            }
-
-        }
-
         [HttpGet("{dividaId}")]
-        public async Task<IActionResult> GetDividaById(int dividaId)
+        public async Task<IActionResult> GetParcelasByDivida(int dividaId)
         {
             try
             {
-                var result = await _repository.GetDividaAsyncById(dividaId);
+                var result = await _repository.GetParcelasByDivida(dividaId);
                 return Ok(result);
             }
             catch (Exception ex)
             {
                 return BadRequest($"Erro: {ex.Message}");
             }
-
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(Divida divida)
+        public async Task<IActionResult> Post(Parcela parcela)
         {
             try
             {
-                _repository.Add(divida);
+                if (parcela.DividaId > 0 && _repository.GetDividaAsyncById(parcela.DividaId) != null)
+                {
+                    _repository.Add(parcela);
 
-                if (await _repository.SaveChangesAsync())
-                    return Ok(divida);
+                    if (await _repository.SaveChangesAsync())
+                        return Ok(parcela);
+
+                }
             }
             catch (Exception ex)
             {
@@ -66,22 +51,21 @@ namespace backend.Controllers
             }
 
             return BadRequest();
-
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(Divida divida)
+        public async Task<IActionResult> Put(Parcela parcela)
         {
             try
             {
-                var result = await _repository.GetDividaAsyncById(divida.Id);
+                var result = await _repository.GetParcelaById(parcela.Id);
                 if (result == null)
                     return NotFound();
 
-                _repository.Update(divida);
+                _repository.Update(parcela);
 
                 if (await _repository.SaveChangesAsync())
-                    return Ok(divida);
+                    return Ok(parcela);
             }
             catch (Exception ex)
             {
@@ -92,12 +76,12 @@ namespace backend.Controllers
 
         }
 
-        [HttpDelete("{dividaId}")]
-        public async Task<IActionResult> Delete(int dividaId)
+        [HttpDelete("{parcelaId}")]
+        public async Task<IActionResult> Delete(int parcelaId)
         {
             try
             {
-                var result = await _repository.GetDividaAsyncById(dividaId);
+                var result = await _repository.GetParcelaById(parcelaId);
                 if (result == null)
                     return NotFound();
 
@@ -114,5 +98,7 @@ namespace backend.Controllers
             return BadRequest();
 
         }
+
+
     }
 }
