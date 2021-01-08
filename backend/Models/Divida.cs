@@ -15,7 +15,7 @@ namespace backend.Models
             this.CPFDevedor = cPFDevedor;
             this.Juros = juros;
             this.Multa = multa;
-
+            Parcelas = new List<Parcela>();
         }
         public int Id { get; set; }
         public int Numero { get; set; }
@@ -25,37 +25,54 @@ namespace backend.Models
         public decimal Multa { get; set; }
         public List<Parcela> Parcelas { get; set; }
 
-        public decimal RecuperarValorOriginal()
+        public decimal ValorOriginal()
         {
+            if (Parcelas == null || Parcelas.Count == 0)
+                return 0;
+
             return Parcelas.Sum(parcela => parcela.Valor);
         }
 
         public int DiasEmAtraso()
         {
+            if (Parcelas == null || Parcelas.Count == 0)
+                return 0;
+
             var primeiroVencimento = Parcelas.OrderBy(parcela => parcela.DataVencimento).First().DataVencimento;
             return DiferencaEmDiasAPartirDeHoje(primeiroVencimento);
         }
 
         public decimal ValorAtualizado()
         {
+            if (Parcelas == null || Parcelas.Count == 0)
+                return 0;
+
             decimal acrescimo = 0;
             foreach (Parcela parcela in Parcelas)
             {
                 acrescimo += (parcela.Valor / 100 * Juros / 30) * DiferencaEmDiasAPartirDeHoje(parcela.DataVencimento);
             }
 
-            return RecuperarValorOriginal() + acrescimo + RecuperarMulta();
+            return ValorOriginal() + acrescimo + RecuperarMulta();
         }
 
         public decimal RecuperarMulta()
         {
-            return RecuperarValorOriginal() / 100 * Multa;
+            return ValorOriginal() / 100 * Multa;
         }
 
         private int DiferencaEmDiasAPartirDeHoje(DateTime vencimento)
         {
             var dias = DateTime.Now.Subtract(vencimento).Days;
             return dias > 0 ? dias : 0;
+        }
+
+        public int NumParcelas()
+        {
+            if (Parcelas == null || Parcelas.Count == 0)
+                return 0;
+
+            return Parcelas.Count;
         }
     }
 }

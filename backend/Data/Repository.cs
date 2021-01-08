@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using backend.Models;
@@ -30,14 +31,14 @@ namespace backend.Data
             return (await _context.SaveChangesAsync()) > 0;
         }
 
-        public async Task<Divida[]> GetAllDividasAsync()
+        public async Task<IEnumerable<Divida>> GetAllDividasAsync()
         {
             IQueryable<Divida> query = _context.Dividas;
 
             query = query.Include(divida => divida.Parcelas);
             query = query.AsNoTracking().OrderBy(c => c.Id);
 
-            return await query.ToArrayAsync();
+            return await query.ToListAsync();
         }
 
         public async Task<Divida> GetDividaAsyncById(int dividaId)

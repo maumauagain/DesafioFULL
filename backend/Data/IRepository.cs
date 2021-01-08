@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using backend.Models;
 
@@ -11,7 +12,7 @@ namespace backend.Data
         Task<bool> SaveChangesAsync();
 
         //Divida
-        Task<Divida[]> GetAllDividasAsync();
+        Task<IEnumerable<Divida>> GetAllDividasAsync();
         Task<Divida> GetDividaAsyncById(int dividaId);
 
         //Parcela

@@ -2,7 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using backend.Data;
+using backend.DTO;
+using backend.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -31,11 +34,25 @@ namespace backend
                 options => options.UseSqlite(Configuration.GetConnectionString("Connection"))
             );
 
+            AutoMapperConfig(services);
+
             services.AddControllers()
                 .AddNewtonsoftJson(opt => opt.SerializerSettings.ReferenceLoopHandling =
                     Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             services.AddScoped<IRepository, Repository>();
+        }
+
+        private void AutoMapperConfig(IServiceCollection services)
+        {
+            var mapperConfiguration = new MapperConfiguration(config =>
+            {
+                config.AllowNullCollections = true;
+                config.CreateMap<Divida, DividaDTO>().ReverseMap();
+            });
+
+            IMapper mapper = mapperConfiguration.CreateMapper();
+            services.AddSingleton(mapper);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

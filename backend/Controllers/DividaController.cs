@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using backend.Data;
+using backend.DTO;
 using backend.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -14,10 +16,12 @@ namespace backend.Controllers
     public class DividaController : ControllerBase
     {
         private readonly IRepository _repository;
+        private readonly IMapper _mapper;
 
-        public DividaController(IRepository repository)
+        public DividaController(IRepository repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -26,7 +30,9 @@ namespace backend.Controllers
             try
             {
                 var result = await _repository.GetAllDividasAsync();
-                return Ok(result);
+                List<DividaDTO> list = new List<DividaDTO>();
+                var debts = _mapper.Map<IEnumerable<DividaDTO>>(result);
+                return Ok(debts);
             }
             catch (Exception ex)
             {
@@ -58,7 +64,10 @@ namespace backend.Controllers
                 _repository.Add(divida);
 
                 if (await _repository.SaveChangesAsync())
-                    return Ok(divida);
+                {
+                    var dividaDTO = _mapper.Map<DividaDTO>(divida);
+                    return Ok(dividaDTO);
+                }
             }
             catch (Exception ex)
             {
@@ -81,7 +90,10 @@ namespace backend.Controllers
                 _repository.Update(divida);
 
                 if (await _repository.SaveChangesAsync())
-                    return Ok(divida);
+                {
+                    var dividaDTO = _mapper.Map<DividaDTO>(divida);
+                    return Ok(dividaDTO);
+                }
             }
             catch (Exception ex)
             {
