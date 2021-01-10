@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Parcela } from '../models/Parcela';
+import { ParcelasService } from './parcelas.service';
 
 @Component({
   selector: 'app-parcelas',
@@ -10,44 +11,114 @@ import { Parcela } from '../models/Parcela';
 export class ParcelasComponent implements OnInit {
 
   title = "Parcelas";
+  criandoNovaParcela = false;
+  @Input() dividaId: number = 0;
 
   public parcelaForm: FormGroup;
 
-  public parcelas = [
-    { id: 1, numero: 1010, valor: 100.0 },
-    { id: 2, numero: 1011, valor: 110.0 },
-    { id: 3, numero: 1012, valor: 120.0 },
-    { id: 4, numero: 1013, valor: 130.0 },
-    { id: 5, numero: 1014, valor: 140.0 }
-  ];
+  // public parcelas = [
+  //   { id: 1, numero: 1010, valor: 100.0 },
+  //   { id: 2, numero: 1011, valor: 110.0 },
+  //   { id: 3, numero: 1012, valor: 120.0 },
+  //   { id: 4, numero: 1013, valor: 130.0 },
+  //   { id: 5, numero: 1014, valor: 140.0 }
+  // ];
+  public parcelas: Parcela[] = [];
 
   public parcelaSelecionada: Parcela = new Parcela();
 
+  constructor(private fb: FormBuilder,
+    private parcelasService: ParcelasService) {
+    this.criarForm();
+  }
+
+  ngOnInit(): void {
+    this.carregarParcelas(this.dividaId);
+  }
+
   SelectParcela(parcela: Parcela) {
     this.parcelaSelecionada = parcela;
+    console.log("teste data");
+    console.log(parcela);
+    this.parcelaSelecionada.dividaId = this.dividaId;
     this.parcelaForm.patchValue(parcela);
   }
 
   DiselectParcela() {
     this.parcelaSelecionada = new Parcela();
-  }
-
-  constructor(private fb: FormBuilder) {
-    this.criarForm();
-  }
-
-  ngOnInit(): void {
+    this.criandoNovaParcela = false;
   }
 
   criarForm() {
     this.parcelaForm = this.fb.group({
+      id: [''],
       numero: ['', Validators.required],
-      valor: ['', Validators.required]
+      valor: ['', Validators.required],
+      dataVencimento: ['', Validators.required],
+      dividaId: [''],
     });
   }
 
   parcelaSubmit() {
-    console.log(this.parcelaForm.value);
+    this.salvarParcela(this.parcelaForm.value);
+  }
+
+  carregarParcelas(id: number) {
+    this.parcelasService.getByDividaId(id).subscribe(
+      (parcelas: Parcela[]) => {
+        this.parcelas = parcelas;
+      },
+      (erro: any) => {
+        console.error(erro);
+      }
+    )
+  }
+
+  salvarParcela(parcela: Parcela) {
+
+    if (parcela.id == 0) {
+      this.parcelasService.post(parcela).subscribe(
+        (parcela: Parcela) => {
+          console.log(parcela);
+          this.carregarParcelas(this.dividaId)
+        },
+        (erro: any) => {
+          console.error(erro)
+        })
+    }
+    else {
+      this.parcelasService.put(parcela).subscribe(
+        (parcela: Parcela) => {
+          console.log(parcela);
+          this.carregarParcelas(this.dividaId)
+        },
+        (erro: any) => {
+          console.error(erro)
+        }
+      )
+    }
+
+    this.DiselectParcela();
+
+  }
+
+  removerParcela(id: number) {
+    this.parcelasService.delete(id).subscribe(
+      (result) => {
+        console.log(result);
+        this.carregarParcelas(this.dividaId);
+      },
+      (erro: any) => {
+        console.error(erro);
+      }
+    )
+  }
+
+  cadastrarParcela() {
+    this.parcelaSelecionada = new Parcela();
+    this.parcelaSelecionada.dividaId = this.dividaId;
+    this.parcelaForm.patchValue(this.parcelaSelecionada)
+    this.criandoNovaParcela = true;
   }
 
 }
