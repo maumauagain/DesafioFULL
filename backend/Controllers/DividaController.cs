@@ -116,7 +116,7 @@ namespace backend.Controllers
                 _repository.Delete(result);
 
                 if (await _repository.SaveChangesAsync())
-                    return Ok("Registro removido!");
+                    return Ok(new { message = "Registro removido!" });
             }
             catch (Exception ex)
             {
