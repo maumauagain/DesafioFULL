@@ -1,7 +1,9 @@
 <div *ngIf="parcelaSelecionada.id > 0 || criandoNovaParcela">
     <div class="row">
         <div class="mr-auto">
-            <h1>Parcela: {{parcelaSelecionada.numero}}</h1>
+            <h1>
+                <h1>{{(criandoNovaParcela ? 'Nova Parcela' : 'Parcela: ' + parcelaSelecionada.numero)}}</h1>
+            </h1>
         </div>
         <div class="mt-2">
             <button (click)="DiselectParcela()" class="btn btn-outline-danger">Fechar</button>
@@ -53,7 +55,7 @@
                         class="btn btn-sm btn-outline-warning">Detalhe</button></th>
                 <td>{{parcela.numero}}</td>
                 <td>{{parcela.valor}}</td>
-                <td>{{parcela.dataVencimento}}</td>
+                <td>{{parcela.dataVencimento | date :'dd/MM/yyyy' }}</td>
                 <td>
                     <button (click)="removerParcela(parcela.id)" class="btn btn-sm btn-danger">Remover</button>
                 </td>

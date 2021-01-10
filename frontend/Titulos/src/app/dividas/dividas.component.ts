@@ -132,9 +132,12 @@ export class DividasComponent implements OnInit {
 
   cadastrarDivida() {
     this.selectedDivida = new Divida();
-    console.log("teste cpf");
-    console.log(this.selectedDivida);
     this.dividaForm.patchValue(this.selectedDivida)
     this.criandoNovaDivida = true;
+  }
+
+  fecharModal() {
+    this.carregarDividas();
+    this.modalRef.hide();
   }
 }

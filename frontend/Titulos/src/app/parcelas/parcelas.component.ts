@@ -1,3 +1,4 @@
+import { formatDate, DatePipe } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Parcela } from '../models/Parcela';
@@ -38,10 +39,20 @@ export class ParcelasComponent implements OnInit {
 
   SelectParcela(parcela: Parcela) {
     this.parcelaSelecionada = parcela;
-    console.log("teste data");
-    console.log(parcela);
     this.parcelaSelecionada.dividaId = this.dividaId;
     this.parcelaForm.patchValue(parcela);
+    this.parcelaForm.get('dataVencimento')?.patchValue(this.formatDate(this.parcelaSelecionada.dataVencimento));
+  }
+
+  private formatDate(date: Date) {
+    const d = new Date(date);
+    let month = '' + (d.getMonth() + 1);
+    console.log(d.getMonth());
+    let day = '' + d.getDate();
+    const year = d.getFullYear();
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+    return [year, month, day].join('-');
   }
 
   DiselectParcela() {
