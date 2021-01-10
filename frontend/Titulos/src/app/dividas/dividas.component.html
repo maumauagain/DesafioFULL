@@ -81,7 +81,8 @@
                         <td>
                             <button (click)="openModal(template, divida.id)"
                                 class="btn btn-sm mr-1 btn-primary">Parcelas</button>
-                            <button (click)="excluirDivida(divida.id)" class="btn btn-sm btn-danger">Excluir</button>
+                            <button (click)="openDialogModal(template2, divida.id)"
+                                class="btn btn-sm btn-danger">Excluir</button>
                         </td>
                     </tr>
                 </tbody>
@@ -103,5 +104,13 @@
         <div class="container">
             <app-parcelas [dividaId]=dividaId></app-parcelas>
         </div>
+    </div>
+</ng-template>
+
+<ng-template #template2>
+    <div class="modal-body text-center">
+        <p>Deseja realmente remover registro?</p>
+        <button type="button" class="btn btn-default" (click)="confirm()">Sim</button>
+        <button type="button" class="btn btn-dark" (click)="decline()">Não</button>
     </div>
 </ng-template>

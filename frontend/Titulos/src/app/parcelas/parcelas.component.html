@@ -57,9 +57,18 @@
                 <td>{{parcela.valor}}</td>
                 <td>{{parcela.dataVencimento | date :'dd/MM/yyyy' }}</td>
                 <td>
-                    <button (click)="removerParcela(parcela.id)" class="btn btn-sm btn-danger">Remover</button>
+                    <button (click)="openDialogModal(template2, parcela.id)"
+                        class="btn btn-sm btn-danger">Remover</button>
                 </td>
             </tr>
         </tbody>
     </table>
 </div>
+
+<ng-template #template2>
+    <div class="modal-body text-center">
+        <p>Deseja realmente remover registro?</p>
+        <button type="button" class="btn btn-default" (click)="confirm()">Sim</button>
+        <button type="button" class="btn btn-dark" (click)="decline()">Não</button>
+    </div>
+</ng-template>

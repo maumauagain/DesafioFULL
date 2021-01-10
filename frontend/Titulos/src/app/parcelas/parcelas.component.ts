@@ -1,6 +1,7 @@
 import { formatDate, DatePipe } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Parcela } from '../models/Parcela';
 import { ParcelasService } from './parcelas.service';
 
@@ -14,8 +15,10 @@ export class ParcelasComponent implements OnInit {
   title = "Parcelas";
   criandoNovaParcela = false;
   @Input() dividaId: number = 0;
+  parcelaId = 0;
 
   public parcelaForm: FormGroup;
+  public modalDialogRef: BsModalRef;
 
   // public parcelas = [
   //   { id: 1, numero: 1010, valor: 100.0 },
@@ -29,12 +32,27 @@ export class ParcelasComponent implements OnInit {
   public parcelaSelecionada: Parcela = new Parcela();
 
   constructor(private fb: FormBuilder,
-    private parcelasService: ParcelasService) {
+    private parcelasService: ParcelasService,
+    private modalService: BsModalService,) {
     this.criarForm();
   }
 
   ngOnInit(): void {
     this.carregarParcelas(this.dividaId);
+  }
+
+  openDialogModal(template: TemplateRef<any>, id: number) {
+    this.modalDialogRef = this.modalService.show(template, { class: 'modal-sm' });
+    this.parcelaId = id;
+  }
+
+  confirm(): void {
+    this.removerParcela(this.parcelaId);
+    this.modalDialogRef.hide();
+  }
+
+  decline(): void {
+    this.modalDialogRef.hide();
   }
 
   SelectParcela(parcela: Parcela) {

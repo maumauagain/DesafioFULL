@@ -13,6 +13,7 @@ export class DividasComponent implements OnInit {
 
   public dividaForm: FormGroup;
   public modalRef: BsModalRef;
+  public modalDialogRef: BsModalRef;
   public selectedDivida: Divida = new Divida();
   public criandoNovaDivida = false;
   @Input() dividaId: number = 0;
@@ -26,6 +27,7 @@ export class DividasComponent implements OnInit {
   //   { id: 5, numero: 1015, nomeDevedor: "Carlao", numParcelas: 5, valorOriginal: 240.0, diasEmAtraso: 14, valorAtualizado: 245.0 }
   // ];
   public dividas: Divida[] = [];
+  public message: string = "";
 
   constructor(private fb: FormBuilder,
     private modalService: BsModalService,
@@ -36,6 +38,20 @@ export class DividasComponent implements OnInit {
   openModal(template: TemplateRef<any>, id: number) {
     this.modalRef = this.modalService.show(template);
     this.dividaId = id;
+  }
+
+  openDialogModal(template: TemplateRef<any>, id: number) {
+    this.modalDialogRef = this.modalService.show(template, { class: 'modal-sm' });
+    this.dividaId = id;
+  }
+
+  confirm(): void {
+    this.excluirDivida(this.dividaId);
+    this.modalDialogRef.hide();
+  }
+
+  decline(): void {
+    this.modalDialogRef.hide();
   }
 
   SelectDivida(divida: Divida) {
