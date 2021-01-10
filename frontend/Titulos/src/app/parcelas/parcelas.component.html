@@ -1,0 +1,49 @@
+<div *ngIf="parcelaSelecionada.id > 0">
+    <div class="row">
+        <div class="mr-auto">
+            <h1>Parcela: {{parcelaSelecionada.numero}}</h1>
+        </div>
+        <div class="mt-2">
+            <button (click)="DiselectParcela()" class="btn btn-outline-danger">Fechar</button>
+        </div>
+    </div>
+    <form [formGroup]="parcelaForm" (submit)="parcelaSubmit()">
+        <div class="form-group">
+            <label for="formGroupExampleInput">Número</label>
+            <input type="number" formControlName="numero" class="form-control pl-1">
+        </div>
+        <div class="form-group">
+            <label for="formGroupExampleInput2">Valor</label>
+            <input type="number" formControlName="valor" class="form-control pl-1">
+        </div>
+        <div class="form-group">
+            <hr>
+            <button class="btn btn-success" [disabled]="!parcelaForm.valid">Salvar</button>
+        </div>
+    </form>
+</div>
+
+<div *ngIf="parcelaSelecionada.id == 0">
+    <table class="table table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Visualizar</th>
+                <th scope="col">Numero</th>
+                <th scope="col">Valor</th>
+                <th scope="col">Opções</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let parcela of parcelas">
+                <th scope="row"><button (click)="SelectParcela(parcela)"
+                        class="btn btn-sm btn-outline-warning">Detalhe</button></th>
+                <td>{{parcela.numero}}</td>
+                <td>{{parcela.valor}}</td>
+                <td>
+                    <button class="btn btn-sm btn-danger">Remover</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>

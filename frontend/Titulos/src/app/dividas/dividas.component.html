@@ -1,0 +1,89 @@
+<div class="row">
+
+    <div class="col-sm-6" *ngIf="selectedDivida.id > 0">
+        <div class="row">
+            <div class="mr-auto">
+                <h1>Divida: {{selectedDivida.nomeDevedor}}</h1>
+            </div>
+            <div class="mt-2">
+                <button class="btn btn-outline-danger" (click)="DiselectDivida()">Fechar</button>
+            </div>
+        </div>
+
+        <form [formGroup]="dividaForm" (submit)="dividaSubmit()">
+            <div class="form-group">
+                <label for="formGroupExampleInput">Número</label>
+                <input type="number" formControlName="numero" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="formGroupExampleInput2">Nome Devedor</label>
+                <input type="text" formControlName="nomeDevedor" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="formGroupExampleInput3">CPF Devedor</label>
+                <input type="text" formControlName="cpfDevedor" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="formGroupExampleInput4">Juros</label>
+                <input type="number" formControlName="juros" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="formGroupExampleInput5">Multa</label>
+                <input type="text" formControlName="multa" class="form-control">
+            </div>
+            <div class="form-group">
+                <hr>
+                <button class="btn btn-success" [disabled]="!dividaForm.valid">Salvar</button>
+            </div>
+
+        </form>
+
+    </div>
+
+    <div [ngClass]="{'col-sm-12': selectedDivida.id == 0, 'col-sm-6' : true}">
+        <h2>Dívidas</h2>
+        <table class="table table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Visualizar</th>
+                    <th scope="col">Numero</th>
+                    <th scope="col">Nome Devedor</th>
+                    <th scope="col">Numero Parcelas</th>
+                    <th scope="col">Valor Original</th>
+                    <th scope="col">Dias em Atraso</th>
+                    <th scope="col">Valor Atualizado</th>
+                    <th scope="col">Opções</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let divida of dividas">
+                    <th scope="row"><button (click)="SelectDivida(divida)"
+                            class="btn btn-sm btn-outline-warning">Detalhe</button></th>
+                    <td>{{divida.numero}}</td>
+                    <td>{{divida.nomeDevedor}}</td>
+                    <td>{{divida.numParcelas}}</td>
+                    <td>{{divida.valorOriginal}}</td>
+                    <td>{{divida.diasEmAtraso}}</td>
+                    <td>{{divida.valorAtualizado}}</td>
+                    <td>
+                        <button (click)="openModal(template)" class="btn btn-sm mr-1 btn-primary">Parcelas</button>
+                        <button class="btn btn-sm btn-danger">Excluir</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<ng-template #template>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Parcelas</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <app-parcelas></app-parcelas>
+    </div>
+</ng-template>
