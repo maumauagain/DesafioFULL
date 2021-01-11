@@ -1,5 +1,5 @@
 <h1 align="center">
-    <img src="./dividas.jpg" alt="Homepage"/>
+    <img src="./dividas.JPG" alt="Homepage"/>
 </h1>
 
 ## 📝 Sobre
