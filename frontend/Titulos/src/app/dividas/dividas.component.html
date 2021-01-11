@@ -75,9 +75,9 @@
                         <td>{{divida.numero}}</td>
                         <td>{{divida.nomeDevedor}}</td>
                         <td>{{divida.numParcelas}}</td>
-                        <td>{{divida.valorOriginal}}</td>
+                        <td>R${{divida.valorOriginal | number : '1.2-2'}}</td>
                         <td>{{divida.diasEmAtraso}}</td>
-                        <td>{{divida.valorAtualizado}}</td>
+                        <td>R${{divida.valorAtualizado | number : '1.2-2'}}</td>
                         <td>
                             <button (click)="openModal(template, divida.id)"
                                 class="btn btn-sm mr-1 btn-primary">Parcelas</button>
