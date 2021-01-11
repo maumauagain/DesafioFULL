@@ -105,6 +105,7 @@ export class DividasComponent implements OnInit {
   dividaSubmit() {
     this.salvarDivida(this.dividaForm.value);
     console.log(this.dividaForm.value);
+    this.DiselectDivida();
   }
 
   salvarDivida(divida: Divida) {
