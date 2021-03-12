@@ -14,7 +14,10 @@ namespace backend.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<Divida>().HasKey(d => d.Id);
+            builder.Entity<Divida>().HasQueryFilter(d => d.Removed == false);
+
             builder.Entity<Parcela>().HasKey(p => p.Id);
+            builder.Entity<Parcela>().HasQueryFilter(p => p.Removed == false);
 
             builder.Entity<Divida>()
                 .HasData(new List<Divida>(){

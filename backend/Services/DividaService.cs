@@ -28,7 +28,10 @@ namespace backend.Services
         }
         public IEnumerable<Divida> GetAll()
         {
-            return _repository.Select().AsQueryable().Include(d => d.Parcelas).AsNoTracking().ToList();
+            return _repository.Select()
+                              .AsQueryable()
+                              .Include(d => d.Parcelas)
+                              .AsNoTracking().ToList();
         }
 
         public void Post(Divida divida)
