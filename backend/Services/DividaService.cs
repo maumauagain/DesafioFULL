@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using backend.Models.Entities;
-using backend.Models.Interfaces;
+using backend.Models.Interfaces.Repositories;
 using backend.Models.Interfaces.Services;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;

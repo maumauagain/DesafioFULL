@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using backend.Models.Entities;
-using backend.Models.Interfaces;
+using backend.Models.Interfaces.Repositories;
 using backend.Models.Interfaces.Services;
 using System.Linq;
 
@@ -8,9 +8,9 @@ namespace backend.Services
 {
     public class ParcelaService : IParcelaService
     {
-        private IRepository<Parcela> _repository;
+        private IParcelaRepository<Parcela> _repository;
 
-        public ParcelaService(IRepository<Parcela> repository)
+        public ParcelaService(IParcelaRepository<Parcela> repository)
         {
             _repository = repository;
         }

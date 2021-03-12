@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using backend.Models.Entities;
 
-namespace backend.Models.Interfaces
+namespace backend.Models.Interfaces.Repositories
 {
     public interface IRepository<T> where T : BaseEntity
     {
@@ -13,8 +13,5 @@ namespace backend.Models.Interfaces
         Task<bool> SaveChangesAsync();
         T Select(int id);
         IEnumerable<T> Select();
-
-        //Parcela
-        Parcela[] GetParcelasByDivida(int dividaId);
     }
 }

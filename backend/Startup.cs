@@ -4,9 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using backend.Data;
+using backend.Data.Repository;
 using backend.DTO;
 using backend.Models.Entities;
-using backend.Models.Interfaces;
+using backend.Models.Interfaces.Repositories;
 using backend.Models.Interfaces.Services;
 using backend.Services;
 using Microsoft.AspNetCore.Builder;
@@ -44,6 +45,7 @@ namespace backend
                     Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddScoped(typeof(IParcelaRepository<>), typeof(ParcelaRepository<>));
             services.AddScoped<IDividaService, DividaService>();
             services.AddScoped<IParcelaService, ParcelaService>();
         }

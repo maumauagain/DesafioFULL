@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using backend.Models.Entities;
-using backend.Models.Interfaces;
+using backend.Models.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 
-namespace backend.Data
+namespace backend.Data.Repository
 {
     public class Repository<T> : IRepository<T> where T : BaseEntity
     {
-        private readonly DataContext _context;
-        private DbSet<T> _dataset;
+        protected readonly DataContext _context;
+        protected DbSet<T> _dataset;
 
         public Repository(DataContext context)
         {
@@ -69,16 +69,6 @@ namespace backend.Data
             return (await _context.SaveChangesAsync()) > 0;
         }
 
-        public Parcela[] GetParcelasByDivida(int dividaId)
-        {
-            IQueryable<Parcela> query = _context.Parcelas;
-
-            query = query.AsNoTracking()
-                         .OrderBy(parcela => parcela.DataVencimento)
-                         .Where(parcela => parcela.DividaId == dividaId);
-
-            return query.ToArray();
-        }
         public T Select(int id)
         {
             try
