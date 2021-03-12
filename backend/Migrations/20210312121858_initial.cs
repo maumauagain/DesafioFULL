@@ -13,6 +13,9 @@ namespace backend.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    Removed = table.Column<bool>(nullable: false),
+                    CreateAt = table.Column<DateTime>(nullable: false),
+                    UpdateAt = table.Column<DateTime>(nullable: true),
                     Numero = table.Column<int>(nullable: false),
                     NomeDevedor = table.Column<string>(nullable: true),
                     CPFDevedor = table.Column<string>(nullable: true),
@@ -30,6 +33,9 @@ namespace backend.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    Removed = table.Column<bool>(nullable: false),
+                    CreateAt = table.Column<DateTime>(nullable: false),
+                    UpdateAt = table.Column<DateTime>(nullable: true),
                     Numero = table.Column<int>(nullable: false),
                     DataVencimento = table.Column<DateTime>(nullable: false),
                     Valor = table.Column<decimal>(nullable: false),
@@ -48,33 +54,33 @@ namespace backend.Migrations
 
             migrationBuilder.InsertData(
                 table: "Dividas",
-                columns: new[] { "Id", "CPFDevedor", "Juros", "Multa", "NomeDevedor", "Numero" },
-                values: new object[] { 1, "123456", 1m, 2m, "José", 1010 });
+                columns: new[] { "Id", "CPFDevedor", "CreateAt", "Juros", "Multa", "NomeDevedor", "Numero", "Removed", "UpdateAt" },
+                values: new object[] { 1, "123456", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m, 2m, "José", 1010, false, null });
 
             migrationBuilder.InsertData(
                 table: "Dividas",
-                columns: new[] { "Id", "CPFDevedor", "Juros", "Multa", "NomeDevedor", "Numero" },
-                values: new object[] { 2, "123777", 2m, 4m, "João", 1011 });
+                columns: new[] { "Id", "CPFDevedor", "CreateAt", "Juros", "Multa", "NomeDevedor", "Numero", "Removed", "UpdateAt" },
+                values: new object[] { 2, "123777", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 2m, 4m, "João", 1011, false, null });
 
             migrationBuilder.InsertData(
                 table: "Parcelas",
-                columns: new[] { "Id", "DataVencimento", "DividaId", "Numero", "Valor" },
-                values: new object[] { 1, new DateTime(2020, 11, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 1, 100m });
+                columns: new[] { "Id", "CreateAt", "DataVencimento", "DividaId", "Numero", "Removed", "UpdateAt", "Valor" },
+                values: new object[] { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2020, 11, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 1, false, null, 100m });
 
             migrationBuilder.InsertData(
                 table: "Parcelas",
-                columns: new[] { "Id", "DataVencimento", "DividaId", "Numero", "Valor" },
-                values: new object[] { 2, new DateTime(2020, 12, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 2, 100m });
+                columns: new[] { "Id", "CreateAt", "DataVencimento", "DividaId", "Numero", "Removed", "UpdateAt", "Valor" },
+                values: new object[] { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2020, 12, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 2, false, null, 100m });
 
             migrationBuilder.InsertData(
                 table: "Parcelas",
-                columns: new[] { "Id", "DataVencimento", "DividaId", "Numero", "Valor" },
-                values: new object[] { 3, new DateTime(2020, 12, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, 3, 200m });
+                columns: new[] { "Id", "CreateAt", "DataVencimento", "DividaId", "Numero", "Removed", "UpdateAt", "Valor" },
+                values: new object[] { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2020, 12, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, 3, false, null, 200m });
 
             migrationBuilder.InsertData(
                 table: "Parcelas",
-                columns: new[] { "Id", "DataVencimento", "DividaId", "Numero", "Valor" },
-                values: new object[] { 4, new DateTime(2021, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, 4, 200m });
+                columns: new[] { "Id", "CreateAt", "DataVencimento", "DividaId", "Numero", "Removed", "UpdateAt", "Valor" },
+                values: new object[] { 4, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2021, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, 4, false, null, 200m });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Parcelas_DividaId",

@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using AutoMapper;
 using backend.Data;
 using backend.DTO;
-using backend.Models;
+using backend.Models.Entities;
+using backend.Models.Interfaces;
+using backend.Models.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -15,22 +17,21 @@ namespace backend.Controllers
     [Route("[controller]")]
     public class DividaController : ControllerBase
     {
-        private readonly IRepository _repository;
+        private readonly IDividaService _dividaService;
         private readonly IMapper _mapper;
 
-        public DividaController(IRepository repository, IMapper mapper)
+        public DividaController(IDividaService dividaService, IMapper mapper)
         {
-            _repository = repository;
+            _dividaService = dividaService;
             _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetDividas()
+        public IActionResult GetDividas()
         {
             try
             {
-                var result = await _repository.GetAllDividasAsync();
-                List<DividaDTO> list = new List<DividaDTO>();
+                var result = _dividaService.GetAll();
                 var debts = _mapper.Map<IEnumerable<DividaDTO>>(result);
                 return Ok(debts);
             }
@@ -42,11 +43,11 @@ namespace backend.Controllers
         }
 
         [HttpGet("{dividaId}")]
-        public async Task<IActionResult> GetDividaById(int dividaId)
+        public IActionResult GetDividaById(int dividaId)
         {
             try
             {
-                var result = await _repository.GetDividaAsyncById(dividaId);
+                var result = _dividaService.Get(dividaId);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -57,66 +58,55 @@ namespace backend.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(Divida divida)
+        public IActionResult Post(Divida divida)
         {
             try
             {
-                _repository.Add(divida);
+                _dividaService.Post(divida);
 
-                if (await _repository.SaveChangesAsync())
-                {
-                    var dividaDTO = _mapper.Map<DividaDTO>(divida);
-                    return Ok(dividaDTO);
-                }
+                var dividaDTO = _mapper.Map<DividaDTO>(divida);
+                return Ok(dividaDTO);
             }
             catch (Exception ex)
             {
                 return BadRequest($"Erro: {ex.Message}");
             }
-
-            return BadRequest();
-
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(Divida divida)
+        public IActionResult Put(Divida divida)
         {
             try
             {
-                var result = await _repository.GetDividaAsyncById(divida.Id);
+                var result = _dividaService.Get(divida.Id);
                 if (result == null)
                     return NotFound();
 
-                _repository.Update(divida);
+                _dividaService.Put(divida);
 
-                if (await _repository.SaveChangesAsync())
-                {
-                    var dividaDTO = _mapper.Map<DividaDTO>(divida);
-                    return Ok(dividaDTO);
-                }
+                var dividaDTO = _mapper.Map<DividaDTO>(divida);
+                return Ok(dividaDTO);
+
             }
             catch (Exception ex)
             {
                 return BadRequest($"Erro: {ex.Message}");
             }
-
-            return BadRequest();
 
         }
 
         [HttpDelete("{dividaId}")]
-        public async Task<IActionResult> Delete(int dividaId)
+        public IActionResult Delete(int dividaId)
         {
             try
             {
-                var result = await _repository.GetDividaAsyncById(dividaId);
+                var result = _dividaService.Get(dividaId);
                 if (result == null)
                     return NotFound();
 
-                _repository.Delete(result);
-
-                if (await _repository.SaveChangesAsync())
+                if (_dividaService.Delete(dividaId))
                     return Ok(new { message = "Registro removido!" });
+
             }
             catch (Exception ex)
             {

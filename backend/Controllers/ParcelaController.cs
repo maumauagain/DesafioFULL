@@ -1,7 +1,8 @@
 using System;
 using System.Threading.Tasks;
 using backend.Data;
-using backend.Models;
+using backend.Models.Entities;
+using backend.Models.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers
@@ -10,19 +11,21 @@ namespace backend.Controllers
     [Route("[controller]")]
     public class ParcelaController : ControllerBase
     {
-        private readonly IRepository _repository;
+        private readonly IParcelaService _parcelaService;
+        private readonly IDividaService _dividaService;
 
-        public ParcelaController(IRepository repository)
+        public ParcelaController(IParcelaService parcelaService, IDividaService dividaService)
         {
-            _repository = repository;
+            _parcelaService = parcelaService;
+            _dividaService = dividaService;
         }
 
         [HttpGet("{dividaId}")]
-        public async Task<IActionResult> GetParcelasByDivida(int dividaId)
+        public IActionResult GetParcelasByDivida(int dividaId)
         {
             try
             {
-                var result = await _repository.GetParcelasByDivida(dividaId);
+                var result = _parcelaService.GetByDividaId(dividaId);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -32,16 +35,14 @@ namespace backend.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(Parcela parcela)
+        public IActionResult Post(Parcela parcela)
         {
             try
             {
-                if (parcela.DividaId > 0 && _repository.GetDividaAsyncById(parcela.DividaId) != null)
+                if (parcela.DividaId > 0 && _dividaService.Get(parcela.DividaId) != null)
                 {
-                    _repository.Add(parcela);
-
-                    if (await _repository.SaveChangesAsync())
-                        return Ok(parcela);
+                    _parcelaService.Post(parcela);
+                    return Ok(parcela);
 
                 }
             }
@@ -54,48 +55,42 @@ namespace backend.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(Parcela parcela)
+        public IActionResult Put(Parcela parcela)
         {
             try
             {
-                var result = await _repository.GetParcelaById(parcela.Id);
+                var result = _parcelaService.Get(parcela.Id);
                 if (result == null)
                     return NotFound();
 
-                _repository.Update(parcela);
+                _parcelaService.Put(parcela);
 
-                if (await _repository.SaveChangesAsync())
-                    return Ok(parcela);
+                return Ok(parcela);
             }
             catch (Exception ex)
             {
                 return BadRequest($"Erro: {ex.Message}");
             }
-
-            return BadRequest();
 
         }
 
         [HttpDelete("{parcelaId}")]
-        public async Task<IActionResult> Delete(int parcelaId)
+        public IActionResult Delete(int parcelaId)
         {
             try
             {
-                var result = await _repository.GetParcelaById(parcelaId);
+                var result = _parcelaService.Get(parcelaId);
                 if (result == null)
                     return NotFound();
 
-                _repository.Delete(result);
+                _parcelaService.Delete(result.Id);
 
-                if (await _repository.SaveChangesAsync())
-                    return Ok(new { message = "Registro removido!" });
+                return Ok(new { message = "Registro removido!" });
             }
             catch (Exception ex)
             {
                 return BadRequest($"Erro: {ex.Message}");
             }
-
-            return BadRequest();
 
         }
 

@@ -9,8 +9,8 @@ using backend.Data;
 namespace backend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210108140454_initial")]
-    partial class initial
+    [Migration("20210312123851_SeedingCorrect")]
+    partial class SeedingCorrect
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -18,13 +18,16 @@ namespace backend.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.10");
 
-            modelBuilder.Entity("backend.Models.Divida", b =>
+            modelBuilder.Entity("backend.Models.Entities.Divida", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("CPFDevedor")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreateAt")
                         .HasColumnType("TEXT");
 
                     b.Property<decimal>("Juros")
@@ -39,6 +42,12 @@ namespace backend.Migrations
                     b.Property<int>("Numero")
                         .HasColumnType("INTEGER");
 
+                    b.Property<bool>("Removed")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("UpdateAt")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
                     b.ToTable("Dividas");
@@ -48,27 +57,34 @@ namespace backend.Migrations
                         {
                             Id = 1,
                             CPFDevedor = "123456",
+                            CreateAt = new DateTime(2021, 3, 12, 12, 38, 51, 22, DateTimeKind.Utc).AddTicks(831),
                             Juros = 1m,
                             Multa = 2m,
                             NomeDevedor = "José",
-                            Numero = 1010
+                            Numero = 1010,
+                            Removed = false
                         },
                         new
                         {
                             Id = 2,
                             CPFDevedor = "123777",
+                            CreateAt = new DateTime(2021, 3, 12, 12, 38, 51, 22, DateTimeKind.Utc).AddTicks(5573),
                             Juros = 2m,
                             Multa = 4m,
                             NomeDevedor = "João",
-                            Numero = 1011
+                            Numero = 1011,
+                            Removed = false
                         });
                 });
 
-            modelBuilder.Entity("backend.Models.Parcela", b =>
+            modelBuilder.Entity("backend.Models.Entities.Parcela", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("DataVencimento")
                         .HasColumnType("TEXT");
@@ -78,6 +94,12 @@ namespace backend.Migrations
 
                     b.Property<int>("Numero")
                         .HasColumnType("INTEGER");
+
+                    b.Property<bool>("Removed")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("UpdateAt")
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("Valor")
                         .HasColumnType("TEXT");
@@ -92,40 +114,48 @@ namespace backend.Migrations
                         new
                         {
                             Id = 1,
+                            CreateAt = new DateTime(2021, 3, 12, 12, 38, 51, 23, DateTimeKind.Utc).AddTicks(4702),
                             DataVencimento = new DateTime(2020, 11, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DividaId = 1,
                             Numero = 1,
+                            Removed = false,
                             Valor = 100m
                         },
                         new
                         {
                             Id = 2,
+                            CreateAt = new DateTime(2021, 3, 12, 12, 38, 51, 23, DateTimeKind.Utc).AddTicks(6553),
                             DataVencimento = new DateTime(2020, 12, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DividaId = 1,
                             Numero = 2,
+                            Removed = false,
                             Valor = 100m
                         },
                         new
                         {
                             Id = 3,
+                            CreateAt = new DateTime(2021, 3, 12, 12, 38, 51, 23, DateTimeKind.Utc).AddTicks(6604),
                             DataVencimento = new DateTime(2020, 12, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DividaId = 2,
                             Numero = 3,
+                            Removed = false,
                             Valor = 200m
                         },
                         new
                         {
                             Id = 4,
+                            CreateAt = new DateTime(2021, 3, 12, 12, 38, 51, 23, DateTimeKind.Utc).AddTicks(6606),
                             DataVencimento = new DateTime(2021, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DividaId = 2,
                             Numero = 4,
+                            Removed = false,
                             Valor = 200m
                         });
                 });
 
-            modelBuilder.Entity("backend.Models.Parcela", b =>
+            modelBuilder.Entity("backend.Models.Entities.Parcela", b =>
                 {
-                    b.HasOne("backend.Models.Divida", "Divida")
+                    b.HasOne("backend.Models.Entities.Divida", "Divida")
                         .WithMany("Parcelas")
                         .HasForeignKey("DividaId")
                         .OnDelete(DeleteBehavior.Cascade)

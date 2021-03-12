@@ -5,7 +5,10 @@ using System.Threading.Tasks;
 using AutoMapper;
 using backend.Data;
 using backend.DTO;
-using backend.Models;
+using backend.Models.Entities;
+using backend.Models.Interfaces;
+using backend.Models.Interfaces.Services;
+using backend.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -40,7 +43,9 @@ namespace backend
                 .AddNewtonsoftJson(opt => opt.SerializerSettings.ReferenceLoopHandling =
                     Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
-            services.AddScoped<IRepository, Repository>();
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddScoped<IDividaService, DividaService>();
+            services.AddScoped<IParcelaService, ParcelaService>();
         }
 
         private void AutoMapperConfig(IServiceCollection services)

@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using backend.Data;
 
 namespace backend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20210312121858_initial")]
+    partial class initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,7 +57,7 @@ namespace backend.Migrations
                         {
                             Id = 1,
                             CPFDevedor = "123456",
-                            CreateAt = new DateTime(2021, 3, 12, 12, 38, 51, 22, DateTimeKind.Utc).AddTicks(831),
+                            CreateAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Juros = 1m,
                             Multa = 2m,
                             NomeDevedor = "José",
@@ -66,7 +68,7 @@ namespace backend.Migrations
                         {
                             Id = 2,
                             CPFDevedor = "123777",
-                            CreateAt = new DateTime(2021, 3, 12, 12, 38, 51, 22, DateTimeKind.Utc).AddTicks(5573),
+                            CreateAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Juros = 2m,
                             Multa = 4m,
                             NomeDevedor = "João",
@@ -112,7 +114,7 @@ namespace backend.Migrations
                         new
                         {
                             Id = 1,
-                            CreateAt = new DateTime(2021, 3, 12, 12, 38, 51, 23, DateTimeKind.Utc).AddTicks(4702),
+                            CreateAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DataVencimento = new DateTime(2020, 11, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DividaId = 1,
                             Numero = 1,
@@ -122,7 +124,7 @@ namespace backend.Migrations
                         new
                         {
                             Id = 2,
-                            CreateAt = new DateTime(2021, 3, 12, 12, 38, 51, 23, DateTimeKind.Utc).AddTicks(6553),
+                            CreateAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DataVencimento = new DateTime(2020, 12, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DividaId = 1,
                             Numero = 2,
@@ -132,7 +134,7 @@ namespace backend.Migrations
                         new
                         {
                             Id = 3,
-                            CreateAt = new DateTime(2021, 3, 12, 12, 38, 51, 23, DateTimeKind.Utc).AddTicks(6604),
+                            CreateAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DataVencimento = new DateTime(2020, 12, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DividaId = 2,
                             Numero = 3,
@@ -142,7 +144,7 @@ namespace backend.Migrations
                         new
                         {
                             Id = 4,
-                            CreateAt = new DateTime(2021, 3, 12, 12, 38, 51, 23, DateTimeKind.Utc).AddTicks(6606),
+                            CreateAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DataVencimento = new DateTime(2021, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DividaId = 2,
                             Numero = 4,

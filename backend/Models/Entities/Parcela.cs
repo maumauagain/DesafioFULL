@@ -1,20 +1,21 @@
 using System;
 
-namespace backend.Models
+namespace backend.Models.Entities
 {
-    public class Parcela
+    public class Parcela : BaseEntity
     {
         public Parcela() { }
 
-        public Parcela(int id, int numero, DateTime dataVencimento, Decimal valor, int dividaId)
+        public Parcela(int id, int numero, DateTime dataVencimento, Decimal valor, int dividaId, bool removed, DateTime createAt)
         {
             this.Id = id;
             this.Numero = numero;
             this.DataVencimento = dataVencimento;
             this.Valor = valor;
             this.DividaId = dividaId;
+            this.Removed = removed;
+            this.CreateAt = createAt;
         }
-        public int Id { get; set; }
         public int Numero { get; set; }
         public DateTime DataVencimento { get; set; }
         public Decimal Valor { get; set; }

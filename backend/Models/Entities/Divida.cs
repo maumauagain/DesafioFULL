@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace backend.Models
+namespace backend.Models.Entities
 {
-    public class Divida
+    public class Divida : BaseEntity
     {
         public Divida() { }
-        public Divida(int id, int numero, string nomeDevedor, string cPFDevedor, decimal juros, decimal multa)
+        public Divida(int id, int numero, string nomeDevedor, string cPFDevedor, decimal juros, decimal multa, bool removed, DateTime createAt)
         {
             this.Id = id;
             this.Numero = numero;
@@ -16,8 +16,9 @@ namespace backend.Models
             this.Juros = juros;
             this.Multa = multa;
             Parcelas = new List<Parcela>();
+            this.Removed = removed;
+            this.CreateAt = createAt;
         }
-        public int Id { get; set; }
         public int Numero { get; set; }
         public string NomeDevedor { get; set; }
         public string CPFDevedor { get; set; }
