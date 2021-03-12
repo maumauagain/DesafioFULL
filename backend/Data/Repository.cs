@@ -69,29 +69,6 @@ namespace backend.Data
             return (await _context.SaveChangesAsync()) > 0;
         }
 
-        public async Task<IEnumerable<Divida>> GetAllDividasAsync()
-        {
-            IQueryable<Divida> query = _context.Dividas;
-
-            query = query.Include(divida => divida.Parcelas);
-            query = query.AsNoTracking().OrderBy(c => c.Id);
-
-            return await query.ToListAsync();
-        }
-
-        public async Task<Divida> GetDividaAsyncById(int dividaId)
-        {
-            IQueryable<Divida> query = _context.Dividas;
-
-            query = query.Include(d => d.Parcelas);
-
-
-            query = query.AsNoTracking()
-                         .OrderBy(divida => divida.Id)
-                         .Where(divida => divida.Id == dividaId);
-
-            return await query.FirstOrDefaultAsync();
-        }
         public Parcela[] GetParcelasByDivida(int dividaId)
         {
             IQueryable<Parcela> query = _context.Parcelas;
@@ -102,17 +79,6 @@ namespace backend.Data
 
             return query.ToArray();
         }
-
-        public async Task<Parcela> GetParcelaById(int parcelaId)
-        {
-            IQueryable<Parcela> query = _context.Parcelas;
-
-            query = query.AsNoTracking()
-                         .Where(parcela => parcela.Id == parcelaId);
-
-            return await query.FirstOrDefaultAsync();
-        }
-
         public T Select(int id)
         {
             try

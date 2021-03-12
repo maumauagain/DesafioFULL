@@ -14,12 +14,7 @@ namespace backend.Models.Interfaces
         T Select(int id);
         IEnumerable<T> Select();
 
-        //Divida
-        Task<IEnumerable<Divida>> GetAllDividasAsync();
-        Task<Divida> GetDividaAsyncById(int dividaId);
-
         //Parcela
         Parcela[] GetParcelasByDivida(int dividaId);
-        Task<Parcela> GetParcelaById(int parcelaId);
     }
 }
