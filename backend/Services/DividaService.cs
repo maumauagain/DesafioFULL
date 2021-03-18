@@ -17,14 +17,14 @@ namespace backend.Services
             _repository = repository;
         }
 
-        public bool Delete(int id)
+        public async Task<bool> Delete(int id)
         {
-            return _repository.Delete(id);
+            return await _repository.Delete(id);
         }
 
-        public Divida Get(int id)
+        public async Task<Divida> Get(int id)
         {
-            return _repository.Select(id);
+            return await _repository.Select(id);
         }
         public IEnumerable<Divida> GetAll()
         {
@@ -34,14 +34,14 @@ namespace backend.Services
                               .AsNoTracking().ToList();
         }
 
-        public void Post(Divida divida)
+        public async Task Post(Divida divida)
         {
-            _repository.Add(divida);
+            await _repository.Add(divida);
         }
 
-        public void Put(Divida divida)
+        public async Task Put(Divida divida)
         {
-            _repository.Update(divida);
+            await _repository.Update(divida);
         }
     }
 }

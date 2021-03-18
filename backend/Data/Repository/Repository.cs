@@ -18,25 +18,25 @@ namespace backend.Data.Repository
             _context = context;
             _dataset = _context.Set<T>();
         }
-        public void Add(T entity)
+        public async Task Add(T entity)
         {
             try
             {
                 entity.CreateAt = DateTime.UtcNow;
                 _dataset.Add(entity);
 
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public void Update(T entity)
+        public async Task Update(T entity)
         {
             try
             {
-                var result = _dataset.SingleOrDefault(t => t.Id == entity.Id);
+                var result = await _dataset.SingleOrDefaultAsync(t => t.Id == entity.Id);
                 if (result is null)
                     return;
 
@@ -44,7 +44,7 @@ namespace backend.Data.Repository
                 entity.CreateAt = result.CreateAt;
 
                 _context.Entry(result).CurrentValues.SetValues(entity);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
 
             }
             catch (Exception ex)
@@ -52,16 +52,16 @@ namespace backend.Data.Repository
                 throw ex;
             }
         }
-        public bool Delete(int id)
+        public async Task<bool> Delete(int id)
         {
-            var result = _dataset.SingleOrDefault(t => t.Id == id);
+            var result = await _dataset.SingleOrDefaultAsync(t => t.Id == id);
             if (result is null)
                 return false;
 
             var removedItem = result;
             removedItem.Removed = true;
             _context.Entry(result).CurrentValues.SetValues(removedItem);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return true;
         }
         public async Task<bool> SaveChangesAsync()
@@ -69,11 +69,11 @@ namespace backend.Data.Repository
             return (await _context.SaveChangesAsync()) > 0;
         }
 
-        public T Select(int id)
+        public async Task<T> Select(int id)
         {
             try
             {
-                return _dataset.SingleOrDefault(t => t.Id == id);
+                return await _dataset.SingleOrDefaultAsync(t => t.Id == id);
             }
             catch (System.Exception)
             {

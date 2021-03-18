@@ -43,11 +43,11 @@ namespace backend.Controllers
         }
 
         [HttpGet("{dividaId}")]
-        public IActionResult GetDividaById(int dividaId)
+        public async Task<IActionResult> GetDividaById(int dividaId)
         {
             try
             {
-                var result = _dividaService.Get(dividaId);
+                var result = await _dividaService.Get(dividaId);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -58,11 +58,11 @@ namespace backend.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post(Divida divida)
+        public async Task<IActionResult> Post(Divida divida)
         {
             try
             {
-                _dividaService.Post(divida);
+                await _dividaService.Post(divida);
 
                 var dividaDTO = _mapper.Map<DividaDTO>(divida);
                 return Ok(dividaDTO);
@@ -74,15 +74,15 @@ namespace backend.Controllers
         }
 
         [HttpPut]
-        public IActionResult Put(Divida divida)
+        public async Task<IActionResult> Put(Divida divida)
         {
             try
             {
-                var result = _dividaService.Get(divida.Id);
+                var result = await _dividaService.Get(divida.Id);
                 if (result == null)
                     return NotFound();
 
-                _dividaService.Put(divida);
+                await _dividaService.Put(divida);
 
                 var dividaDTO = _mapper.Map<DividaDTO>(divida);
                 return Ok(dividaDTO);
@@ -96,15 +96,15 @@ namespace backend.Controllers
         }
 
         [HttpDelete("{dividaId}")]
-        public IActionResult Delete(int dividaId)
+        public async Task<IActionResult> Delete(int dividaId)
         {
             try
             {
-                var result = _dividaService.Get(dividaId);
+                var result = await _dividaService.Get(dividaId);
                 if (result == null)
                     return NotFound();
 
-                if (_dividaService.Delete(dividaId))
+                if (await _dividaService.Delete(dividaId))
                     return Ok(new { message = "Registro removido!" });
 
             }

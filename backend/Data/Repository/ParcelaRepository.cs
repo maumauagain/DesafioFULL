@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Threading.Tasks;
 using backend.Models.Entities;
 using backend.Models.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +10,7 @@ namespace backend.Data.Repository
     {
         public ParcelaRepository(DataContext context) : base(context) { }
 
-        public Parcela[] GetParcelasByDivida(int dividaId)
+        public Task<Parcela[]> GetParcelasByDivida(int dividaId)
         {
             IQueryable<Parcela> query = _context.Parcelas;
 
@@ -17,7 +18,7 @@ namespace backend.Data.Repository
                          .OrderBy(parcela => parcela.DataVencimento)
                          .Where(parcela => parcela.DividaId == dividaId);
 
-            return query.ToArray();
+            return query.ToArrayAsync();
         }
 
     }

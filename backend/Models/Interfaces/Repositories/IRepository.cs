@@ -7,11 +7,11 @@ namespace backend.Models.Interfaces.Repositories
 {
     public interface IRepository<T> where T : BaseEntity
     {
-        void Add(T entity);
-        void Update(T entity);
-        bool Delete(int id);
+        Task Add(T entity);
+        Task Update(T entity);
+        Task<bool> Delete(int id);
         Task<bool> SaveChangesAsync();
-        T Select(int id);
+        Task<T> Select(int id);
         IEnumerable<T> Select();
     }
 }

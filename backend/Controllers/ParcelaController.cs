@@ -21,11 +21,11 @@ namespace backend.Controllers
         }
 
         [HttpGet("{dividaId}")]
-        public IActionResult GetParcelasByDivida(int dividaId)
+        public async Task<IActionResult> GetParcelasByDivida(int dividaId)
         {
             try
             {
-                var result = _parcelaService.GetByDividaId(dividaId);
+                var result = await _parcelaService.GetByDividaId(dividaId);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -35,13 +35,13 @@ namespace backend.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post(Parcela parcela)
+        public async Task<IActionResult> Post(Parcela parcela)
         {
             try
             {
-                if (parcela.DividaId > 0 && _dividaService.Get(parcela.DividaId) != null)
+                if (parcela.DividaId > 0 && await _dividaService.Get(parcela.DividaId) != null)
                 {
-                    _parcelaService.Post(parcela);
+                    await _parcelaService.Post(parcela);
                     return Ok(parcela);
 
                 }
@@ -55,15 +55,15 @@ namespace backend.Controllers
         }
 
         [HttpPut]
-        public IActionResult Put(Parcela parcela)
+        public async Task<IActionResult> Put(Parcela parcela)
         {
             try
             {
-                var result = _parcelaService.Get(parcela.Id);
+                var result = await _parcelaService.Get(parcela.Id);
                 if (result == null)
                     return NotFound();
 
-                _parcelaService.Put(parcela);
+                await _parcelaService.Put(parcela);
 
                 return Ok(parcela);
             }
@@ -75,15 +75,15 @@ namespace backend.Controllers
         }
 
         [HttpDelete("{parcelaId}")]
-        public IActionResult Delete(int parcelaId)
+        public async Task<IActionResult> Delete(int parcelaId)
         {
             try
             {
-                var result = _parcelaService.Get(parcelaId);
+                var result = await _parcelaService.Get(parcelaId);
                 if (result == null)
                     return NotFound();
 
-                _parcelaService.Delete(result.Id);
+                await _parcelaService.Delete(result.Id);
 
                 return Ok(new { message = "Registro removido!" });
             }

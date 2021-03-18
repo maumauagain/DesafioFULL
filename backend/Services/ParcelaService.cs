@@ -3,6 +3,7 @@ using backend.Models.Entities;
 using backend.Models.Interfaces.Repositories;
 using backend.Models.Interfaces.Services;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace backend.Services
 {
@@ -15,29 +16,29 @@ namespace backend.Services
             _repository = repository;
         }
 
-        public bool Delete(int id)
+        public async Task<bool> Delete(int id)
         {
-            return _repository.Delete(id);
+            return await _repository.Delete(id);
         }
 
-        public Parcela Get(int id)
+        public async Task<Parcela> Get(int id)
         {
-            return _repository.Select(id);
+            return await _repository.Select(id);
         }
 
-        public IEnumerable<Parcela> GetByDividaId(int id)
+        public async Task<IEnumerable<Parcela>> GetByDividaId(int id)
         {
-            return _repository.GetParcelasByDivida(id);
+            return await _repository.GetParcelasByDivida(id);
         }
 
-        public void Post(Parcela parcela)
+        public async Task Post(Parcela parcela)
         {
-            _repository.Add(parcela);
+            await _repository.Add(parcela);
         }
 
-        public void Put(Parcela parcela)
+        public async Task Put(Parcela parcela)
         {
-            _repository.Update(parcela);
+            await _repository.Update(parcela);
         }
     }
 }
