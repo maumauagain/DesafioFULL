@@ -17,8 +17,8 @@ export class ParcelasComponent implements OnInit {
   @Input() dividaId: number = 0;
   parcelaId = 0;
 
-  public parcelaForm: FormGroup;
-  public modalDialogRef: BsModalRef;
+  public parcelaForm!: FormGroup;
+  public modalDialogRef!: BsModalRef;
 
   // public parcelas = [
   //   { id: 1, numero: 1010, valor: 100.0 },

@@ -11,9 +11,9 @@ import { DividasService } from './dividas.service';
 })
 export class DividasComponent implements OnInit {
 
-  public dividaForm: FormGroup;
-  public modalRef: BsModalRef;
-  public modalDialogRef: BsModalRef;
+  public dividaForm!: FormGroup;
+  public modalRef!: BsModalRef;
+  public modalDialogRef!: BsModalRef;
   public selectedDivida: Divida = new Divida();
   public criandoNovaDivida = false;
   @Input() dividaId: number = 0;
